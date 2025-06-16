@@ -22,18 +22,23 @@ static void signal_handler(int sig, siginfo_t *info, void *context)
 
     (void)context;
     (void)info;
+
     char_accumulator <<= 1;
+
     if (sig == SIGUSR1)
         char_accumulator |= 0;
     else if (sig == SIGUSR2)
         char_accumulator |= 1;
 
     bit_index++;
+
     if (bit_index == 8)
     {
-        if (char_accumulator == '\0') 
-            exit(0);
-        write(1, &char_accumulator, 1);
+        if (char_accumulator == '\0')
+            write(1, "\n", 1);  // Just move to next line; end of one message
+        else
+            write(1, &char_accumulator, 1);  // Print character
+
         bit_index = 0;
         char_accumulator = 0;
     }
