@@ -33,11 +33,17 @@ static void ft_send_char(pid_t pid_server, unsigned char c)
 int main(int argc, char *argv[])
 {
 	if (argc != 3)
-		return (0); // do nothing? or should an error be displayed?
+	{
+		ft_printf("Input valid parameters: ./client <Server PID> <string to be displayed>\n");
+		return (0);
+	}
 	pid_t pid_server; 
 	pid_server = (pid_t)ft_atoi(argv[1]);
 	if (pid_server <= 0)
-		return (0); // invalid PID - should an error be displayed or doing nothing is ok?
+	{
+		ft_printf("Invalid PID\n");
+		return (0);
+	}
 	char *msg;
 	msg = argv[2];
 	int idx;
@@ -47,6 +53,6 @@ int main(int argc, char *argv[])
 		ft_send_char(pid_server, (unsigned char)msg[idx]);
 		idx++;
 	}
-	ft_send_char(pid_server, '\0'); // is this okay for a stop message?
+	ft_send_char(pid_server, '\0');
 	return (0);
 }
